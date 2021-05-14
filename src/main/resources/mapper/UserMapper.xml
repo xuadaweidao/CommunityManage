@@ -18,7 +18,7 @@
         <result property="period" column="period"/>
     </resultMap>
 
-    <insert id="addUser" parameterType="User">
+    <insert id="saveUser" parameterType="User">
         insert into user values (null,#{username},#{password},#{department},#{name},#{phone},#{image},#{grade},#{sex},#{period})
     </insert>
 

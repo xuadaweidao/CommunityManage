@@ -2,7 +2,11 @@ package com.shenchangxin.community.service;
 
 
 import com.shenchangxin.community.pojo.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -12,4 +16,10 @@ public interface UserService {
     void deleteUserById(Integer id);
     void updateUser(User user);
     void saveUser(User user);
+    Map login(User user);
+
+    /**
+     * 根据用户名加载用户
+     */
+    UserDetails loadUserByUsername(String name) throws UsernameNotFoundException;
 }
