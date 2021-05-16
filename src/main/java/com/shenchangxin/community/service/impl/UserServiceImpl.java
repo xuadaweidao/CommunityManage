@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findUserByName(String username) {
-        return userMapper.findUserByName(username);
+        return userMapper.findUserByUsername(username);
     }
 
     /**
@@ -97,18 +97,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map login(User user) throws UsernameNotFoundException, RuntimeException {
 
-        User dbUser = this.findUserByName(user.getName());
+        User dbUser = this.findUserByName(user.getUsername());
         //此用户不存在 或 密码错误
         if (null == dbUser || !encoder.matches(user.getPassword(), dbUser.getPassword())) {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
-        //用户已被封禁
-//        if (0 == dbUser.getState()) {
-//            throw new RuntimeException("你已被封禁");
-//        }
+
 
         //用户名 密码 匹配 签发token
-        final UserDetails userDetails = this.loadUserByUsername(user.getName());
+        final UserDetails userDetails = this.loadUserByUsername(user.getUsername());
 
         final String token = jsonWebTokenUtil.generateToken(userDetails);
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
@@ -120,7 +117,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> map = new HashMap<>(3);
 
         map.put("token", jwtConfig.getPrefix() + token);
-        map.put("name", user.getName());
+        map.put("name", user.getUsername());
         map.put("roles", roles);
         return map;
     }
@@ -134,8 +131,8 @@ public class UserServiceImpl implements UserService {
     public void register(User userToAdd) throws RuntimeException {
 
         //有效 保存用户
-        final String username = userToAdd.getName();
-        if (userMapper.findUserByName(username) != null) {
+        final String username = userToAdd.getUsername();
+        if (userMapper.findUserByUsername(username) != null) {
             throw new RuntimeException("用户名已存在");
         }
 
@@ -157,14 +154,14 @@ public class UserServiceImpl implements UserService {
      * 根据用户名查询用户
      */
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User user = userMapper.findUserByName(name);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userMapper.findUserByUsername(username);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>(1);
         //用于添加用户的权限。将用户权限添加到authorities
         List<Role> roles = roleMapper.findUserRoles(user.getId());
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        return new org.springframework.security.core.userdetails.User(user.getName(), "***********", authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), "***********", authorities);
     }
 }

@@ -18,7 +18,7 @@
         <result property="period" column="period"/>
     </resultMap>
 
-    <insert id="saveUser" parameterType="User">
+    <insert id="saveUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into user values (null,#{username},#{password},#{department},#{name},#{phone},#{image},#{grade},#{sex},#{period})
     </insert>
 

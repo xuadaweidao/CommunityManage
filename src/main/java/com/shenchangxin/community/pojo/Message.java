@@ -17,5 +17,7 @@ public class Message {
     private Date commentTime;
     private Date replyTime;
     private String replyUserId;
+    private User user;
+    private User replyUser;
 
 }

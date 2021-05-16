@@ -15,5 +15,6 @@ public class Activity {
     private Integer views;
     private String communityId;
     private String userId;
-
+    private User user;
+    private Community community;
 }

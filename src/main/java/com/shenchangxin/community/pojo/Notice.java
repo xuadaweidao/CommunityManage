@@ -15,4 +15,6 @@ public class Notice {
     private String userId;
     private String communityId;
     private Date createTime;
+    private User user;
+    private Community community;
 }

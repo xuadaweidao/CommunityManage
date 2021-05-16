@@ -16,6 +16,8 @@ public class Apply {
     private int state;
     private String content;
     private String userId;
+    private User user;
+    private Community community;
 
 
 }

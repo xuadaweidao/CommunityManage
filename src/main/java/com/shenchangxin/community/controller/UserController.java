@@ -33,7 +33,7 @@ public class UserController {
             return Result.create(StatusCode.ERROR, "注册失败，字段不完整");
         }
         try {
-            userService.saveUser(user);
+            userService.register(user);
             return Result.create(StatusCode.OK, "注册成功");
         } catch (RuntimeException e) {
             return Result.create(StatusCode.ERROR, "注册失败，" + e.getMessage());
@@ -43,10 +43,10 @@ public class UserController {
     /**
      * 登录返回token
      */
-    @ApiOperation(value = "用户登录", notes = "用户名+密码 name+password 返回token")
+    @ApiOperation(value = "用户登录", notes = "用户名+密码 username+password 返回token")
     @PostMapping("/login")
     public Result login(User user) {
-        if (!formatUtil.checkStringNull(user.getName(), user.getPassword())) {
+        if (!formatUtil.checkStringNull(user.getUsername(), user.getPassword())) {
             return Result.create(StatusCode.ERROR, "参数错误");
         }
 

@@ -21,5 +21,4 @@ public class Community {
     private User user;
     private Type type;
 
-
 }

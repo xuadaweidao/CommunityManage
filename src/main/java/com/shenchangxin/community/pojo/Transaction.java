@@ -15,7 +15,8 @@ public class Transaction {
     private String remark;
     private double money;
     private String type;
-
+    private Activity activity;
+    private Community community;
 
 
 }

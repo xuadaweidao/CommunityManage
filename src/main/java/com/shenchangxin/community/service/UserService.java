@@ -17,6 +17,7 @@ public interface UserService {
     void updateUser(User user);
     void saveUser(User user);
     Map login(User user);
+    void register(User user);
 
     /**
      * 根据用户名加载用户
