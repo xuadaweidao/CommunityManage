@@ -39,10 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html","/null/swagger-resources","/swagger-resources/**","/v2/api-docs","/webjars/**").permitAll()
-                .antMatchers("/user/**","/tag/**","/reply/**").permitAll()
+                .antMatchers("/swagger-ui.html","/null/swagger-resources","/swagger-resources/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/","/version").permitAll()
-                //.antMatchers("/","/index","/css/*","/js/*","/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jsonWebTokenRequestFilter, UsernamePasswordAuthenticationFilter.class);

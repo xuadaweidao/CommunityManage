@@ -9,7 +9,7 @@
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
-        <result property="department" column="department"/>
+        <result property="department" column="dept"/>
         <result property="name" column="name"/>
         <result property="phone" column="phone"/>
         <result property="image" column="image"/>
@@ -19,7 +19,8 @@
     </resultMap>
 
     <insert id="saveUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into user values (null,#{username},#{password},#{department},#{name},#{phone},#{image},#{grade},#{sex},#{period})
+        insert into user (id,username,password,dept,name,phone,image,grade,sex,period)
+        values (null,#{username},#{password},#{department},#{name},#{phone},#{image},#{grade},#{sex},#{period})
     </insert>
 
     <delete id="deleteUserById" parameterType="Integer">
@@ -28,6 +29,10 @@
 
     <select id="findUserById" parameterType="Integer" resultMap="UserMap">
         select * from user where id=#{id}
+    </select>
+
+    <select id="searchUserByFields" parameterType="String" resultMap="UserMap">
+        select * from user where name like '%${fields}%'
     </select>
 
     <update id="updateUser" parameterType="User">
@@ -70,5 +75,9 @@
 
     <select id="findUserByUsername" parameterType="String" resultMap="UserMap">
         select * from user where username=#{username}
+    </select>
+
+    <select id="getAllUser" resultMap="UserMap">
+        select * from user
     </select>
 </mapper>

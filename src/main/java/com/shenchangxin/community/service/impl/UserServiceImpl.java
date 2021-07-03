@@ -80,6 +80,11 @@ public class UserServiceImpl implements UserService {
         userMapper.updateUser(user);
     }
 
+    @Override
+    public List<User>  searchUserByFields(String fields){
+        return userMapper.searchUserByFields(fields);
+    }
+
     /**
      * 保存用户
      * @param user
@@ -88,6 +93,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userMapper.saveUser(user);
+    }
+
+    @Override
+    public List<User> getAllUser(){
+        return userMapper.getAllUser();
     }
 
     /**
@@ -125,7 +135,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 注册
      *
-     * @param userToAdd
+     * @param
      */
     @Transactional(rollbackFor = Exception.class)
     public void register(User userToAdd) throws RuntimeException {
@@ -135,8 +145,6 @@ public class UserServiceImpl implements UserService {
         if (userMapper.findUserByUsername(username) != null) {
             throw new RuntimeException("用户名已存在");
         }
-
-
         List<Role> roles = new ArrayList<>(1);
         roles.add(roleService.findRoleByName("USER"));
         userToAdd.setRoles(roles);//新注册用户赋予USER权限
@@ -164,4 +172,6 @@ public class UserServiceImpl implements UserService {
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), "***********", authorities);
     }
+
+
 }

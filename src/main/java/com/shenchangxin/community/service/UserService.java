@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,6 +19,8 @@ public interface UserService {
     void saveUser(User user);
     Map login(User user);
     void register(User user);
+    List<User> getAllUser();
+    List<User>  searchUserByFields(String fields);
 
     /**
      * 根据用户名加载用户

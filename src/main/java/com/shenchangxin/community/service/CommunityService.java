@@ -3,6 +3,8 @@ package com.shenchangxin.community.service;
 import com.shenchangxin.community.pojo.Community;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface CommunityService {
 
@@ -10,7 +12,11 @@ public interface CommunityService {
 
     Community findCommunityById(Integer id);
 
-    void saveCommunity(Community community);
+    void saveCommunity(String name,String description,String type);
 
-    void updateCommunity(Community community);
+    void updateCommunity(Integer id,String name,String description,String type);
+
+    List<Community> getAllCommunity();
+
+    List<Community> searchCommunity(String fields);
 }

@@ -8,14 +8,12 @@ import com.shenchangxin.community.utils.FormatUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -25,7 +23,7 @@ public class UserController {
     private FormatUtil formatUtil;
 
     @PostMapping("/register")
-    public Result register(User user) {
+    public Result register(@RequestBody User user) {
         if (!formatUtil.checkStringNull(
                 user.getName(),
                 user.getUsername(),
@@ -43,9 +41,9 @@ public class UserController {
     /**
      * 登录返回token
      */
-    @ApiOperation(value = "用户登录", notes = "用户名+密码 username+password 返回token")
+    @ResponseBody
     @PostMapping("/login")
-    public Result login(User user) {
+    public Result login(@RequestBody User user) {
         if (!formatUtil.checkStringNull(user.getUsername(), user.getPassword())) {
             return Result.create(StatusCode.ERROR, "参数错误");
         }
