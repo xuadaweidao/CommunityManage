@@ -41,6 +41,10 @@
         delete from community where id=#{id}
     </delete>
 
+    <select id="findCommunityByName" parameterType="String" resultMap="CommunityMap">
+        select * from community where name=#{name}
+    </select>
+
     <update id="updateCommunity" >
         update community
         <set>

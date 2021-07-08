@@ -92,4 +92,9 @@ public class CommunityServiceImpl implements CommunityService {
     public List<Community> searchCommunity(String fields) {
         return communityMapper.searchCommunity(fields);
     }
+
+    @Override
+    public Community findCommunityByName(String name) {
+        return communityMapper.findCommunityByName(name);
+    }
 }

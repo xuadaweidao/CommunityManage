@@ -23,5 +23,7 @@ public interface CommunityMapper {
 
     List<Community> searchCommunity(@Param(value="fields") String fields);
 
+    Community findCommunityByName(String name);
+
 
 }

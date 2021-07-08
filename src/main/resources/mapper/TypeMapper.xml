@@ -18,4 +18,27 @@
         select * from type where name=#{typeName}
     </select>
 
+    <insert id="addType" parameterType="com.shenchangxin.community.pojo.Type">
+        insert into type values (null,#{name})
+    </insert>
+
+    <delete id="deleteTypeById" parameterType="Integer">
+        delete from type where id=#{id}
+    </delete>
+
+    <select id="getAllType" resultMap="TypeMap">
+        select * from type limit 40
+    </select>
+
+    <update id="updateType" >
+        update type
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
 </mapper>

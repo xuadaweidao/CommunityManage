@@ -17,4 +17,5 @@ public class Notice {
     private Date createTime;
     private User user;
     private Community community;
+
 }

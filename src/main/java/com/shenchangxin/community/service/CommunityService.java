@@ -19,4 +19,6 @@ public interface CommunityService {
     List<Community> getAllCommunity();
 
     List<Community> searchCommunity(String fields);
+
+    Community findCommunityByName(String name);
 }

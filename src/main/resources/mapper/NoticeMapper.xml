@@ -3,12 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.shenchangxin.community.mapper.ActivityMapper">
-    <resultMap id="ActivityMap" type="com.shenchangxin.community.pojo.Activity">
+<mapper namespace="com.shenchangxin.community.mapper.NoticeMapper">
+    <resultMap id="NoticeMap" type="com.shenchangxin.community.pojo.Notice">
         <id property="id" column="id"/>
-        <result property="name" column="name"/>
+        <result property="title" column="title"/>
         <result property="content" column="content"/>
-        <result property="views" column="views"/>
         <result property="communityId" column="community_id"/>
         <result property="userId" column="u_id"/>
         <result property="createTime" column="create_time"/>
@@ -22,27 +21,29 @@
         </association>
     </resultMap>
 
-    <select id="getAllActivity" resultMap="ActivityMap">
-        select * from activity
-    </select>
-
-    <select id="findActivityById" parameterType="Integer" resultMap="ActivityMap">
-        select * from activity where id=#{id}
-    </select>
-
-    <insert id="saveActivity" parameterType="com.shenchangxin.community.pojo.Activity">
-        insert into activity values (null,#{name},0,#{content},#{userId},#{communityId},null)
+    <insert id="addNotice" parameterType="com.shenchangxin.community.pojo.Notice">
+        insert into notice values (null,#{title},#{content},#{communityId},#{userId},null)
     </insert>
 
-    <delete id="deleteActivityById" parameterType="Integer">
-        delete from activity where id=#{id}
+    <delete id="deleteNoticeById" parameterType="Integer">
+        delete from notice where id=#{id}
     </delete>
 
-    <update id="updateActivity" >
-        update activity
+    <select id="findNoticeById" parameterType="Integer" resultMap="NoticeMap">
+        select * from notice where id=#{id}
+    </select>
+
+    <select id="getAllNotice" resultMap="NoticeMap">
+        select * from notice limit 40
+    </select>
+
+
+
+    <update id="updateNotice" >
+        update notice
         <set>
-            <if test="name != null">
-                name = #{name},
+            <if test="title != null">
+                title = #{title},
             </if>
 
             <if test="content != null">
@@ -50,7 +51,10 @@
             </if>
 
             <if test="communityId != null">
-                community_id = #{communityId},
+                communityId = #{communityId},
+            </if>
+            <if test="userId != null">
+                userId = #{userId},
             </if>
 
         </set>

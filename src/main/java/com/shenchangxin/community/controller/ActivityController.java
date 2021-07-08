@@ -1,9 +1,12 @@
 package com.shenchangxin.community.controller;
 
+import com.shenchangxin.community.dto.ActivityRequestDTO;
 import com.shenchangxin.community.entity.Result;
 import com.shenchangxin.community.entity.StatusCode;
 import com.shenchangxin.community.pojo.Activity;
+import com.shenchangxin.community.pojo.Community;
 import com.shenchangxin.community.service.ActivityService;
+import com.shenchangxin.community.service.CommunityService;
 import com.shenchangxin.community.utils.FormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,9 @@ public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private CommunityService communityService;
 
     @Autowired
     private FormatUtil formatUtil;
@@ -43,12 +49,18 @@ public class ActivityController {
     };
 
     @PostMapping("/addActivity")
-    public Result addActivity(@RequestBody Activity activity){
+    public Result addActivity(@RequestBody ActivityRequestDTO requestDTO){
 
-        if(!formatUtil.checkObjectNull(activity)){
+        if(!formatUtil.checkObjectNull(requestDTO)){
             return Result.create(StatusCode.ERROR,"参数值不合法");
         }
         try{
+            Community community = communityService.findCommunityByName(requestDTO.getCommunityName());
+            String CommunityId = community.getId().toString();
+            Activity activity = new Activity();
+            activity.setName(requestDTO.getName());
+            activity.setContent(requestDTO.getContent());
+            activity.setCommunityId(CommunityId);
             activityService.addActivity(activity);
             return Result.create(StatusCode.OK,"保存成功");
         }catch (RuntimeException e){
@@ -73,13 +85,13 @@ public class ActivityController {
 
     @PostMapping("/updateActivity")
     public Result updateActivity(@RequestParam(value = "id",required = false) Integer id,@RequestParam(value = "name",required = false) String name,
-                                 @RequestParam(value = "content",required = false) String content,@RequestParam(value = "views",required = false)Integer views){
+                                 @RequestParam(value = "content",required = false) String content,@RequestParam(value = "communityName",required = false)String communityName){
 
         if (!formatUtil.checkPositive(id) ){
             return Result.create(StatusCode.ERROR,"参数值不合法");
         }
         try{
-            activityService.updateActivity(id,name,content,views);
+            activityService.updateActivity(id,name,content,communityName);
             return Result.create(StatusCode.OK,"更新数据成功");
         }catch (RuntimeException e){
             return Result.create(StatusCode.ERROR,"更新数据出错"+e.getMessage());

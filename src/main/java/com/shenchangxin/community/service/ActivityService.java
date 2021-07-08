@@ -17,5 +17,5 @@ public interface ActivityService {
 
     void deleteActivityById(Integer id);
 
-    void updateActivity(Integer id,String name,String content,Integer views);
+    void updateActivity(Integer id,String name,String content,String communityName);
 }
